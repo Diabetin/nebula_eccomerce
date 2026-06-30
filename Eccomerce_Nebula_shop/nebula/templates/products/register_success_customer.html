@@ -1,0 +1,16 @@
+<!-- Registro exitoso de cliente -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="text-center mt-5">
+        <h2>Registro exitoso</h2>
+        <p>El usuario cliente ha sido registrado correctamente.</p>
+        <p>Serás redirigido automáticamente a la página de inicio de sesión en unos segundos.</p>
+        <a href="{% url 'nebula:login_customer' %}" class="btn btn-primary">Ir a inicio de sesión ahora</a>
+    </div>
+    <script>
+        setTimeout(function() {
+            window.location.href = "{% url 'nebula:login_customer' %}";
+        }, 3000);
+    </script>
+{% endblock %}

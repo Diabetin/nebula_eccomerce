@@ -1,0 +1,22 @@
+<!-- View Orders Template -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Mis Órdenes</h2>
+    {% if orders %}
+        {% for order in orders %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Orden #{{ forloop.revcounter }}</h5>
+                    <p class="card-text">
+                        <strong>Fecha:</strong> {{ order.created_at }}<br>
+                        <strong>Precio Total:</strong> ${{ order.total_price|floatformat:2 }}
+                    </p>
+                    <a href="{% url 'nebula:detalle_orden' order_id=order.id %}" class="btn btn-info">Ver Detalle</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No tienes órdenes pendientes.</p>
+    {% endif %}
+{% endblock %}

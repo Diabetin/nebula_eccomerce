@@ -1,0 +1,16 @@
+<!-- Inicio de sesión exitoso para cliente -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="text-center mt-5">
+        <h2>Inicio de sesión exitoso</h2>
+        <p>Bienvenido, {{ user.username }}!</p>
+        <a href="{% url 'nebula:index' %}" class="btn btn-primary">Ir a la página principal</a>
+    </div>
+    <!-- redirect a pagina principal index -->
+     <script>
+        setTimeout(function() {
+            window.location.href = "{% url 'nebula:index' %}";
+        }, 3000); // Redirige después de 3 segundos
+    </script>
+{% endblock %}

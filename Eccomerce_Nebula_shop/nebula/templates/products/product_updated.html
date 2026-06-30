@@ -1,0 +1,143 @@
+<!-- Template para mostrar producto actualizado - Nebula Style -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Producto actualizado</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Estilos Nebula -->
+    <style>
+        body {
+            background: radial-gradient(circle at top, #1b1f3b 0, #050814 60%);
+            color: #f8f9fa;
+            min-height: 100vh;
+        }
+        .navbar-nebula {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        }
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: 0.08em;
+        }
+        .nebula-card {
+            background-color: #111827;
+            border-radius: 1rem;
+            border: 1px solid rgba(148, 163, 184, 0.4);
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.8);
+        }
+        .nebula-card-header {
+            border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+        }
+        .nebula-holo-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.25rem 0.9rem;
+            border-radius: 999px;
+            border: 1px solid rgba(129, 140, 248, 0.8);
+            background:
+                radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.35), transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(236, 72, 153, 0.35), transparent 50%),
+                rgba(15, 23, 42, 0.45);
+            color: #e5e7eb;
+            font-size: 0.8rem;
+            letter-spacing: 0.04em;
+            backdrop-filter: blur(12px);
+        }
+        .nebula-field {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.4rem 0;
+            border-bottom: 1px dashed rgba(148, 163, 184, 0.4);
+        }
+        .nebula-field:last-child {
+            border-bottom: none;
+        }
+        .nebula-field-label {
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+        .nebula-field-value {
+            color: #cbd5f5;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar opcional -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-nebula mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'nebula:crud' %}">
+                Eccomerce NEBULA
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="{% url 'nebula:crud' %}">Inicio Productos</a>
+                            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <span class="nav-link text-light-50">{{ user.username }}</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'nebula:logout' %}">Cerrar sesión</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'nebula:login' %}">Iniciar sesión</a>
+                </li>
+                {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-3">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="nebula-card p-4">
+                    <div class="nebula-card-header mb-3 d-flex justify-content-between align-items-center">
+                        <h1 class="h5 mb-0">Producto actualizado exitosamente</h1>
+                        <span class="nebula-holo-badge">
+                            Actualización
+                        </span>
+                    </div>
+
+                    <!-- Mostrar información del producto actualizado -->
+                    <div class="nebula-card-body">
+                        <div class="nebula-field">
+                            <span class="nebula-field-label">Nombre:</span>
+                            <span class="nebula-field-value">{{ product.name }}</span>
+                        </div>
+                        <div class="nebula-field">
+                            <span class="nebula-field-label">Descripción:</span>
+                            <span class="nebula-field-value">{{ product.description }}</span>
+                        </div>
+                        <div class="nebula-field">
+                            <span class="nebula-field-label">Precio:</span>
+                            <span class="nebula-field-value">${{ product.price }}</span>
+                        </div>
+                        <div class="nebula-field">
+                            <span class="nebula-field-label">Stock:</span>
+                            <span class="nebula-field-value">{{ product.stock }}</span>
+                        </div>
+                        <div class="nebula-field">
+                            <span class="nebula-field-label">Categoría:</span>
+                            <span class="nebula-field-value">{{ product.category }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS (opcional) -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    ></script>
+</body>
+</html>

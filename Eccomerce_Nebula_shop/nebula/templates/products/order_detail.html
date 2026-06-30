@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4">Detalle de la Orden #{{ order.id }}</h2>
+    <p><strong>Fecha:</strong> {{ order.created_at }}</p>
+    <p><strong>Precio Total del Pedido:</strong> ${{ total_price|floatformat:2 }}</p>
+
+    <h3 class="mt-4 mb-3">Productos en la Orden</h3>
+
+    {% if order_items %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        {% for item in order_items %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                {% if item.product.image %}
+                    <img src="{{ item.product.image.url }}" class="card-img-top" alt="{{ item.product.name }}" style="height: 220px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ item.product.name }}</h5>
+                    <p class="card-text small text-muted">{{ item.product.description|truncatechars:100 }}</p>
+                    <p class="mb-1"><strong>Cantidad:</strong> {{ item.quantity }}</p>
+                    <p class="mb-0"><strong>Total del producto:</strong> ${{ item.subtotal|floatformat:2 }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p>No hay productos en esta orden.</p>
+    {% endif %}
+</div>
+{% endblock %}

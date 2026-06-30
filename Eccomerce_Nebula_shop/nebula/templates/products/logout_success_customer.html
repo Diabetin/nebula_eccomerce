@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="text-center mt-5">
+        <h2>Cierre de sesión exitoso</h2>
+        <p>Has cerrado sesión correctamente.</p>
+        <a href="{% url 'nebula:index' %}" class="btn btn-primary">Ir a la página principal</a>
+    </div>
+
+    <script>
+        setTimeout(function () {
+            window.location.href = "{% url 'nebula:index' %}";
+        }, 3000);
+    </script>
+{% endblock %}

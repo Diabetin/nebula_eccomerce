@@ -1,0 +1,244 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}NebulaShop{% endblock %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'tienda/CSS/styles.css' %}">
+
+    <style>
+        .dropdown-menu-cart {
+            min-width: 320px;
+            max-width: 380px;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.98), rgba(2, 6, 23, 0.98));
+            border: 1px solid rgba(59, 130, 246, 0.35);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+        }
+
+        .dropdown-cart-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0.25rem;
+        }
+
+        .dropdown-cart-img {
+            width: 54px;
+            height: 54px;
+            border-radius: 0.5rem;
+            object-fit: contain;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            flex: 0 0 auto;
+        }
+
+        .dropdown-cart-text {
+            min-width: 0;
+            flex: 1;
+            line-height: 1.15;
+        }
+
+        .dropdown-cart-name {
+            color: #f8fafc;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 0.2rem;
+            word-break: break-word;
+        }
+
+        .dropdown-cart-meta {
+            color: #cbd5e1;
+            font-size: 0.82rem;
+            margin: 0;
+        }
+
+        .dropdown-cart-price {
+            color: #60a5fa;
+            font-size: 0.82rem;
+            margin: 0.15rem 0 0 0;
+        }
+
+        .dropdown-cart-empty-title {
+            color: #f8fafc;
+            font-weight: 700;
+        }
+
+        .dropdown-cart-empty-text {
+            color: #cbd5e1;
+        }
+
+        .cart-badge {
+            background: #22d3ee;
+            color: #07111f;
+        }
+
+        .navbar .nav-link,
+        .navbar-brand {
+            color: #f8fafc !important;
+        }
+
+        .dropdown-menu-cart .dropdown-item,
+        .dropdown-menu-cart .dropdown-item:hover {
+            color: inherit;
+        }
+
+        .dropdown-menu-cart .dropdown-item:hover {
+            background: rgba(59, 130, 246, 0.12);
+        }
+    </style>
+</head>
+<body>
+    <div id="space-bg">
+        <div id="spaceship">🚀</div>
+
+        <header class="fixed-top">
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <div class="container">
+                    <a class="navbar-brand fw-bold" href="{% url 'nebula:index' %}">🚀 NebulaShop</a>
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'nebula:index' %}">Inicio</a>
+                            </li>
+                            <!-- Inicio de sesion -->
+                        {% if user.is_authenticated %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    👤 {{ user.username }}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'nebula:ver_ordenes' %}">Mis Órdenes</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'nebula:logout_costumer' %}">Cerrar sesión</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'nebula:login_customer' %}">Iniciar Sesión</a>
+                            </li>
+                        {% endif %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'nebula:index' %}#productos">Productos</a>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="carritoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    🛒 Carrito
+                                    <span id="cart-count" class="badge cart-badge animate__animated animate__pulse animate__infinite">
+                                        {{ cart_count|default:0 }}
+                                    </span>
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-cart p-2" id="dropdown-carrito" aria-labelledby="carritoDropdown">
+                                    {% if cart_items %}
+                                        {% for item in cart_items %}
+                                        <li>
+                                            <a href="{% url 'nebula:carrito' %}" class="dropdown-item rounded-3">
+                                                <div class="dropdown-cart-item">
+                                                    {% if item.image %}
+                                                        <img src="{{ item.image }}" alt="{{ item.name }}" class="dropdown-cart-img">
+                                                    {% else %}
+                                                        <div class="dropdown-cart-img d-flex align-items-center justify-content-center">
+                                                            🛒
+                                                        </div>
+                                                    {% endif %}
+
+                                                    <div class="dropdown-cart-text">
+                                                        <div class="dropdown-cart-name">{{ item.name }}</div>
+                                                        <p class="dropdown-cart-meta">Cantidad: {{ item.quantity }}</p>
+                                                        <p class="dropdown-cart-price">Subtotal: ${{ item.subtotal }}</p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        {% endfor %}
+
+                                        <li><hr class="dropdown-divider border-secondary"></li>
+
+                                        <li>
+                                            <a class="dropdown-item text-center fw-semibold py-2" href="{% url 'nebula:carrito' %}">
+                                                Ver carrito completo
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li>
+                                            <div class="dropdown-item text-center py-3">
+                                                <h6 class="dropdown-cart-empty-title mb-1">Carrito vacío</h6>
+                                                <p class="dropdown-cart-empty-text mb-0 small">¡Añade productos!</p>
+                                            </div>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main style="margin-top: 90px;">
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="footer py-4 mt-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>NebulaShop © 2026</h5>
+                        <p>La tienda espacial más avanzada del sistema solar. Envíos interestelares disponibles.</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h6>Enlaces</h6>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-light text-decoration-none">Términos</a></li>
+                            <li><a href="#" class="text-light text-decoration-none">Privacidad</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h6>Contacto</h6>
+                        <p>🌌 support@nebulashop.space</p>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col text-center">
+                        <a href="{% url 'nebula:login' %}" class="btn btn-outline-light btn-lg">
+                            Panel Administrador
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        window.CARRITO_URL = "{% url 'nebula:carrito' %}";
+        window.INDEX_URL = "{% url 'nebula:index' %}";
+
+        AOS.init();
+
+        $(function () {
+            $("#space-bg").starfield();
+        });
+    </script>
+</body>
+</html>

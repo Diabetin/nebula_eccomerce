@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}NebulaShop - Detalle de Producto{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center" data-aos="fade-up">
+            <div class="col-lg-10">
+                <div class="card product-card shadow-lg border-0 overflow-hidden">
+                    <div class="row g-0 align-items-center">
+
+                        <div class="col-md-5">
+                            <div class="h-100 d-flex align-items-center justify-content-center p-4">
+                                <div class="text-center">
+                                    {% if product.image %}
+                                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded shadow-sm mb-3" style="max-height: 320px; object-fit: cover;">
+                                    {% else %}
+                                        <div class="display-1 mb-3">🚀</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-7">
+                            <div class="card-body p-4 p-md-5">
+                                <h1 class="card-title mb-3 section-title">
+                                    {{ product.name }}
+                                </h1>
+
+                                <p class="card-text lead mb-4 text-info">
+                                    {{ product.description }}
+                                </p>
+                                <!-- Categoria del producto -->
+                                <div class="mb-4">
+                                    <span class="badge bg-secondary text-white px-3 py-2">
+                                        {{ product.category }}
+                                    </span>
+                                </div>
+
+                                <div class="mb-4">
+                                    <h4 class="text-info mb-0">
+                                        ${{ product.price }}
+                                    </h4>
+                                </div>
+                                <!-- Stock del producto -->
+                                <div class="mb-4">
+                                    <span class="badge bg-info text-dark px-3 py-2">
+                                        Stock: {{ product.stock }}
+                                    </span>
+                                </div>
+
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <a href="{% url 'nebula:index' %}" class="btn btn-outline-light">
+                                        Volver a productos
+                                    </a>
+
+                                    <form action="{% url 'nebula:agregar_carrito' product.id %}" method="post" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-primary">
+                                            Agregar al carrito
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,10 @@
+<!-- Order Success Template -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Orden Creada Exitosamente</h2>
+    <p>Gracias por su compra. Su orden ha sido creada con éxito.</p>
+    <p><strong>Número de Orden:</strong> {{ order.id }}</p>
+    <p><strong>Precio Total:</strong> ${{ order.total_price|floatformat:2 }}</p>
+    <a href="{% url 'nebula:ver_ordenes' %}" class="btn btn-primary">Ver Mis Órdenes</a>
+{% endblock %}
