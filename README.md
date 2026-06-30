@@ -154,14 +154,14 @@ http://127.0.0.1:8000/admin/
 
 Login de cliente:  
 http://127.0.0.1:8000/login_customer/
-
-### HOME/CATALOGO 
+### EVIDENCIAS (home/catálogo, carrito, admin)
+## HOME/CATALOGO 
 <img width="1681" height="688" alt="image" src="https://github.com/user-attachments/assets/6e1fc2be-ab70-4908-a638-3de453e3046b" />
-### CARRITO
+## CARRITO
 <img width="1389" height="840" alt="image" src="https://github.com/user-attachments/assets/5eb2c27e-03f1-4573-920a-8e43235478f5" />
-### PANEL ADMIN CRUD
+## PANEL ADMIN CRUD
 <img width="1440" height="661" alt="image" src="https://github.com/user-attachments/assets/3805338b-1622-4a5a-b15a-fe165c716958" />
-### PANEL ADMIN DJANGO (USER ADMIN STAFF NO SUPERUSER)
+## PANEL ADMIN DJANGO (USER ADMIN STAFF NO SUPERUSER)
 <img width="1296" height="476" alt="image" src="https://github.com/user-attachments/assets/15c3967b-8e5e-4d10-be9c-3556e26af6b1" />
 
 
